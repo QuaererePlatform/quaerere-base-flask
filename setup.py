@@ -13,12 +13,13 @@ PROJECT_VERSION = '.'.join(PROJECT_RELEASE.split('.')[:2])
 INSTALL_REQUIRES = [
     'Flask-Classful>=0.14.2',
     'python-arango>=4.4.0',
-    'marshmallow>=2.19.0', ]
+    'marshmallow>=2.19.0,<3', ]
 SETUP_REQUIRES = [
     'pytest-runner',
     'Sphinx>=1.8.0',
     'sphinx-rtd-theme',
-    'setuptools', ]
+    'setuptools',
+    'wheel', ]
 TESTS_REQUIRES = [
     'pytest>=4.2.0',
     'pytest-cov>=2.6.0',
