@@ -1,0 +1,62 @@
+version: 2.1
+
+jobs:
+
+  deps-py37:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-dependency-cache-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          name: Install python dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip3 install -r requirements.txt
+      - save_cache:
+          key: v1-dependency-cache-{{ .Branch }}-{{ checksum "requirements.txt" }}-py37
+          paths:
+            - "venv"
+
+  test-py37:
+    docker:
+      - image: circleci/python:3.7
+    environment:
+      PYTEST_ADDOPTS: --cov-report=xml:test-reports/coverage.xml --junitxml=test-reports/junit.xml
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-dependency-cache-{{ .Branch }}-{{ checksum "requirements.txt" }}-py37
+      - run:
+          name: Run tests
+          command: |
+            . venv/bin/activate
+            python setup.py test
+      - store_test_results:
+          path: test-reports
+      - store_artifacts:
+          path: test-reports
+      - run:
+          name: Smoke Test Install
+          command: |
+            . venv/bin/activate
+            python --version
+            python setup.py install
+
+workflows:
+  version: 2
+
+    build-test-release-py37:
+      jobs:
+        - deps-py37:
+            filters:
+              tags:
+                only: /.*/
+        - test-py37:
+            requires:
+              - deps-py37
+            filters:
+              tags:
+                only: /.*/
