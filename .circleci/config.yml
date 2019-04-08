@@ -33,7 +33,7 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
-            python setup.py test
+            python3 setup.py test
       - store_test_results:
           path: test-reports
       - store_artifacts:
@@ -42,8 +42,33 @@ jobs:
           name: Smoke Test Install
           command: |
             . venv/bin/activate
-            python --version
-            python setup.py install
+            python3 --version
+            python3 setup.py install
+
+  bump_version_dev:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-bumpversion
+      - run:
+          name: Install/Upgrade bumpversion
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip3 install -U bumpversion
+      - save_cache:
+          key: v1-bumpversion
+          paths:
+            - "venv"
+      - run:
+          name: Bumpversion dev
+          command: |
+            . venv/bin/activate
+            python3 setup.py --version
+            bumpversion --no-commit --no-tag dev_num
+            python3 setup.py --version
 
 workflows:
   version: 2
@@ -60,3 +85,9 @@ workflows:
           filters:
             tags:
               only: /.*/
+      - bump_version_dev:
+          requires:
+            - test_py37
+          filters:
+            branches:
+              only: develop
