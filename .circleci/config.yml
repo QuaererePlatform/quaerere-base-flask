@@ -2,7 +2,7 @@ version: 2.1
 
 jobs:
 
-  deps-py37:
+  deps_py37:
     docker:
       - image: circleci/python:3.7
     steps:
@@ -20,7 +20,7 @@ jobs:
           paths:
             - "venv"
 
-  test-py37:
+  test_py37:
     docker:
       - image: circleci/python:3.7
     environment:
@@ -48,15 +48,15 @@ jobs:
 workflows:
   version: 2
 
-    build-test-release-py37:
-      jobs:
-        - deps-py37:
-            filters:
-              tags:
-                only: /.*/
-        - test-py37:
-            requires:
-              - deps-py37
-            filters:
-              tags:
-                only: /.*/
+  build_test_release_py37:
+    jobs:
+      - deps_py37:
+          filters:
+            tags:
+              only: /.*/
+      - test_py37:
+          requires:
+            - deps_py37
+          filters:
+            tags:
+              only: /.*/
