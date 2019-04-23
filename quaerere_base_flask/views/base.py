@@ -13,29 +13,32 @@ LOGGER = logging.getLogger(__name__)
 
 class BaseView(FlaskView):
 
-    def __init__(self, model, schema, db_conn,
+    def __init__(self, model, schema, get_db,
                  db_resp_schema=db_metadata_schema):
         self._model = model
         self._schema = schema()
         self._schema_many = schema(many=True)
         self._db_resp_schema = db_resp_schema
-        self._db_conn = db_conn
+        self._get_db = get_db
 
     def index(self):
-        db_result = self._db_conn.query(self._model).all()
+        db_conn = self._get_db()
+        db_result = db_conn.query(self._model).all()
         return jsonify(self._schema_many.dump(db_result).data)
 
     def get(self, key):
-        db_result = self._db_conn.query(self._model).by_key(key)
+        db_conn = self._get_db()
+        db_result = db_conn.query(self._model).by_key(key)
         return jsonify(self._schema.dump(db_result).data)
 
     def post(self):
+        db_conn = self._get_db()
         if request.data:
             LOGGER.debug(f'Received POST data', extra={'data': request.data})
         unmarshal = self._schema.load(request.get_json())
         if len(unmarshal.errors) == 0:
             try:
-                result = self._db_conn.add(unmarshal.data)
+                result = db_conn.add(unmarshal.data)
                 return jsonify(self._db_resp_schema.dump(result).data), 201
             except DocumentInsertError as e:
                 return jsonify({'errors': e.error_message}), e.http_code
