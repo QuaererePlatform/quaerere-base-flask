@@ -4,12 +4,10 @@
 import os
 import sys
 
-from setuptools import find_packages, setup
+from setuptools import setup
 from setuptools.command.install import install
 
 PROJECT_NAME = 'quaerere-base-flask'
-PROJECT_RELEASE = '0.1.0.dev1'
-PROJECT_VERSION = '.'.join(PROJECT_RELEASE.split('.')[:2])
 INSTALL_REQUIRES = [
     'Flask-Classful>=0.14.2',
     'python-arango>=4.4.0',
@@ -26,9 +24,13 @@ TESTS_REQUIRES = [
     'pytest-flake8', ]
 
 
-def readme():
-    with open('README.rst') as f:
-        return f.read()
+def get_version():
+    with open('VERSION') as f:
+        return f.readline().strip()
+
+
+PROJECT_RELEASE = get_version()
+PROJECT_VERSION = '.'.join(PROJECT_RELEASE.split('.')[:2])
 
 
 # Taken from https://circleci.com/blog/continuously-deploying-python-\
@@ -61,12 +63,7 @@ class WriteRequirementsCommand(install):
 
 setup(name=PROJECT_NAME,
       version=PROJECT_RELEASE,
-      description='',
-      long_description=readme(),
-      packages=find_packages(exclude=['docs', 'tests']),
-      zip_safe=False,
       test_suite='tests',
-      python_requires='~=3.6',
       install_requires=INSTALL_REQUIRES,
       setup_requires=SETUP_REQUIRES,
       tests_require=TESTS_REQUIRES,
