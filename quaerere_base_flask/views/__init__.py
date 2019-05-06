@@ -1,14 +1,14 @@
 """
 """
-__all__ = ['register_views']
-
-
+__all__ = ['BaseView', 'register_views']
 
 import importlib
 import inspect
 import sys
 
 from flask_classful import FlaskView
+
+from .base import BaseView
 
 
 def _view_classes(module):
@@ -33,7 +33,7 @@ def register_views(app, view_module, version, prefix='api'):
     :param version: API version string
     :type version: str
     :param prefix: String to prepend to API path
-    :type prefix: str
+    :type prefix: str or None
     :return:
     """
 
