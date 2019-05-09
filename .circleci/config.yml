@@ -7,7 +7,7 @@ commands:
     parameters:
       version_part:
         type: enum
-        enum: ['major', 'minor', 'patch', 'pre_release', 'pre_release_num', 'dev_num']
+        enum: ['major', 'minor', 'patch', 'pre_release', 'pre_release_num']
       bump_options:
         type: string
         default: '--no-tag --commit -m "Bump version: {current_version} → {new_version} [ci skip]"'
@@ -131,7 +131,7 @@ jobs:
     steps:
       - checkout
       - bumpversion:
-          version_part: dev_num
+          version_part: pre_release_num
       - publish
 
   bump_publish_release:
