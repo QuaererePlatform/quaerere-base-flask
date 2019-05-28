@@ -130,18 +130,18 @@ jobs:
       TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/
     steps:
       - checkout
+      - publish
       - bumpversion:
           version_part: pre_release_num
-      - publish
 
   bump_publish_release:
     docker:
       - image: circleci/python:3.7
     steps:
       - checkout
+      - publish
       - bumpversion:
           version_part: pre_release_num
-      - publish
 
   publish_prod_tag:
     docker:
