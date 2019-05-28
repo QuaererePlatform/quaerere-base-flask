@@ -14,6 +14,7 @@
 #
 import os
 import sys
+
 sys.path.insert(0, os.path.abspath('..'))
 
 
@@ -76,7 +77,6 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
 
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -111,7 +111,6 @@ html_static_path = ['_static']
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'quaerere-base-flaskdoc'
 
-
 # -- Options for LaTeX output ------------------------------------------------
 
 latex_elements = {
@@ -136,10 +135,10 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'quaerere-base-flask.tex', 'quaerere-base-flask Documentation',
+    (master_doc, 'quaerere-base-flask.tex',
+     'quaerere-base-flask Documentation',
      'Caitlyn O\'Hanna', 'manual'),
 ]
-
 
 # -- Options for manual page output ------------------------------------------
 
@@ -150,7 +149,6 @@ man_pages = [
      [author], 1)
 ]
 
-
 # -- Options for Texinfo output ----------------------------------------------
 
 # Grouping the document tree into Texinfo files. List of tuples
@@ -158,10 +156,10 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'quaerere-base-flask', 'quaerere-base-flask Documentation',
-     author, 'quaerere-base-flask', 'One line description of project.',
+     author, 'quaerere-base-flask',
+     'Base for QuaererePlatform projects that utilize Flask.',
      'Miscellaneous'),
 ]
-
 
 # -- Options for Epub output -------------------------------------------------
 
@@ -179,7 +177,6 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
-
 
 # -- Extension configuration -------------------------------------------------
 

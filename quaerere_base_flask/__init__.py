@@ -1,2 +1,2 @@
-from .schemas import db_metadata_schema
+from .schemas import ArangoDBFilterSchema, ArangoDBMetadataSchema
 from .views.base import BaseView
