@@ -10,6 +10,7 @@ from setuptools.command.install import install
 PROJECT_NAME = 'quaerere-base-flask'
 INSTALL_REQUIRES = [
     'Flask-Classful>=0.14.2',
+    'arango-orm==0.5.7',
     'python-arango>=4.4.0',
     'marshmallow>=2.19.0,<3', ]
 SETUP_REQUIRES = [
@@ -22,6 +23,9 @@ TESTS_REQUIRES = [
     'pytest>=4.2.0',
     'pytest-cov>=2.6.0',
     'pytest-flake8', ]
+DEP_LINKS = [
+    'git+https://github.com/ravenoak/arango-orm@update_meta#egg='
+    'arango-orm-0.5.7', ]
 
 
 def get_version():
@@ -54,7 +58,8 @@ class WriteRequirementsCommand(install):
 
     def run(self):
         header = '# Generated file, do not edit\n'
-        all_requirements = INSTALL_REQUIRES + SETUP_REQUIRES + TESTS_REQUIRES
+        all_requirements = INSTALL_REQUIRES + SETUP_REQUIRES + \
+                           TESTS_REQUIRES + DEP_LINKS
         all_requirements = [I + '\n' for I in all_requirements]
         all_requirements.insert(0, header)
         with open('requirements.txt', 'w') as fh:
@@ -65,6 +70,7 @@ setup(name=PROJECT_NAME,
       version=PROJECT_RELEASE,
       test_suite='tests',
       install_requires=INSTALL_REQUIRES,
+      dependency_links=DEP_LINKS,
       setup_requires=SETUP_REQUIRES,
       tests_require=TESTS_REQUIRES,
       entry_points={

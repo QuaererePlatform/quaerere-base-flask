@@ -1,5 +1,6 @@
 # Generated file, do not edit
 Flask-Classful>=0.14.2
+arango-orm==0.5.7
 python-arango>=4.4.0
 marshmallow>=2.19.0,<3
 pytest-runner
@@ -10,3 +11,4 @@ wheel
 pytest>=4.2.0
 pytest-cov>=2.6.0
 pytest-flake8
+git+https://github.com/ravenoak/arango-orm@update_meta#egg=arango-orm-0.5.7
