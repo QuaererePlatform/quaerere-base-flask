@@ -142,10 +142,10 @@ class BaseView(FlaskView):
         :return: DB Delete metadata
         """
         db_conn = self._get_db()
-        schema = self._obj_schema(only=['_key'])
         resp_schema = ArangoDBMetadataSchema()
         try:
-            result = db_conn.delete(schema.load({'_key': key}))
+            ent = db_conn.query(self._obj_model).by_key(key)
+            result = db_conn.delete(ent)
             return jsonify(resp_schema.dump(result).data), 202
         except ArangoServerError as e:
             return jsonify({'errors': e.error_message}), e.http_code
