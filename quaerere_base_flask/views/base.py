@@ -6,6 +6,7 @@ from arango.exceptions import (
     ArangoServerError,
     AQLQueryExecuteError,
     DocumentInsertError)
+from arango_orm.exceptions import DocumentNotFoundError
 from flask import jsonify, request
 from flask_classful import FlaskView
 
@@ -56,7 +57,10 @@ class BaseView(FlaskView):
         :returns: Object of provided key
         """
         db_conn = self._get_db()
-        db_result = db_conn.query(self._obj_model).by_key(key)
+        try:
+            db_result = db_conn.query(self._obj_model).by_key(key)
+        except DocumentNotFoundError as err:
+            return jsonify({'errors': err.message}), 404
         resp_schema = self._obj_schema()
         return jsonify(resp_schema.dump(db_result).data)
 
