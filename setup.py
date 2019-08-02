@@ -12,7 +12,7 @@ INSTALL_REQUIRES = [
     'Flask-Classful>=0.14.2',
     'arango-orm==0.5.7',
     'python-arango>=4.4.0',
-    'marshmallow>=2.19.0,<3', ]
+    'marshmallow>=2.16.0,<3', ]
 SETUP_REQUIRES = [
     'pytest-runner',
     'Sphinx>=1.8.0',
