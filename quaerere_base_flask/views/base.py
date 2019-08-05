@@ -150,8 +150,8 @@ class BaseView(FlaskView):
         db_conn = self._get_db()
         try:
             db_result = db_conn.query(self._obj_model).by_key(key)
-        except DocumentNotFoundError as err:
-            return jsonify({'errors': err.message}), 404
+        except DocumentNotFoundError:
+            return jsonify({'errors': 'Document not found'}), 404
         resp_schema = self._obj_schema()
         resp = resp_schema.dump(db_result).data
         self._post_read_callback(key, resp)
