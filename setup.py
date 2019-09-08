@@ -11,7 +11,7 @@ PROJECT_NAME = 'quaerere-base-flask'
 INSTALL_REQUIRES = [
     'Flask-Classful>=0.14.2',
     'arango-orm==0.5.7',
-    'python-arango>=4.4.0',
+    'python-arango<5,>=4.4.0',
     'marshmallow>=2.16.0,<3', ]
 SETUP_REQUIRES = [
     'pytest-runner',
