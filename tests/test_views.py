@@ -12,8 +12,9 @@ class TestViews:
         from quaerere_base_flask.views.base import BaseView
 
         class MockView(BaseView):
-            def __init__(self):
-                super().__init__(None, mock.MagicMock(), mock.MagicMock())
+            _get_db = mock.MagicMock()
+            _obj_model = mock.MagicMock()
+            _obj_schema = mock.MagicMock()
 
         module = 'foo'
         mock_inspect.getmembers.return_value = [

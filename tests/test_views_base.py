@@ -34,8 +34,9 @@ class TestBaseView:
         get_db = cls.get_db
 
         class MockView(BaseView):
-            def __init__(self):
-                super().__init__(None, MockSchema, get_db)
+            _get_db = get_db
+            _obj_model = mock.MagicMock()
+            _obj_schema = MockSchema
 
         cls.app = Flask(__name__)
         cls.app.config['TESTING'] = True
