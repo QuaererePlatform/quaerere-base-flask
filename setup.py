@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-"""
+"""Setup for quaerere-base-flask
 """
 import os
+import re
 import sys
 
 from setuptools import setup
@@ -12,20 +13,23 @@ INSTALL_REQUIRES = [
     'Flask-Classful>=0.14.2',
     'arango-orm==0.5.7',
     'python-arango<5,>=4.4.0',
-    'marshmallow>=2.16.0,<3', ]
+    'marshmallow<3,>=2.16.0',
+]
 SETUP_REQUIRES = [
     'pytest-runner',
-    'Sphinx>=1.8.0',
+    'Sphinx<2,>=1.8.0',
     'sphinx-rtd-theme',
     'setuptools',
-    'wheel', ]
+    'wheel',
+]
 TESTS_REQUIRES = [
     'pytest>=4.2.0',
     'pytest-cov>=2.6.0',
-    'pytest-flake8', ]
+    'pytest-flake8',
+]
 DEP_LINKS = [
-    'git+https://github.com/ravenoak/arango-orm@update_meta#egg='
-    'arango-orm-0.5.7', ]
+    'git+https://github.com/ravenoak/arango-orm@update_meta#egg=arango-orm',
+]
 
 
 def get_version():
@@ -44,6 +48,10 @@ class VerifyVersionCommand(install):
     description = 'verify that the git tag matches our version'
 
     def run(self):
+        release_regex = re.compile(r'^[0-9]+\.[0-9]+\.[0-9]+$')
+        if not release_regex.match(PROJECT_RELEASE):
+            sys.exit(0)
+
         tag = os.getenv('CIRCLE_TAG')
 
         if tag != 'v' + PROJECT_RELEASE:
